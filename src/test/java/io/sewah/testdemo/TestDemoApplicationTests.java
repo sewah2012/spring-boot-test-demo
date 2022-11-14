@@ -1,13 +1,10 @@
 package io.sewah.testdemo;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -29,9 +26,16 @@ class TestDemoApplicationTests {
     @Test
    public void test() throws Exception {
 
-        var url = "/test-controller?number=2";
-        when(testService.checkEvenNumber(nullable(Integer.class))).thenReturn(Boolean.TRUE);
-        var response =  mvc.perform(get(url))
+        var url = "/test-controller";
+        Boolean booleans = Boolean.FALSE;
+        when(testService.checkEvenNumber(nullable(Integer.class))).thenReturn(booleans);
+
+        var response =
+                mvc.perform(
+                        get(url)
+                                .param("number", "5")
+                        )
+
                 .andExpect(status().isOk())
                 .andReturn();
 
